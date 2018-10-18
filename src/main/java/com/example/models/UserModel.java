@@ -1,5 +1,7 @@
 package com.example.models;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+@JsonPropertyOrder({"id", "name", "age"})
 public class UserModel {
     private int id;
     private String name;

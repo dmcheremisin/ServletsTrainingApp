@@ -42,4 +42,13 @@
         <url-pattern>/updateUser</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>Json example</servlet-name>
+        <servlet-class>com.example.servlets.JsonServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Json example</servlet-name>
+        <url-pattern>/json</url-pattern>
+    </servlet-mapping>
+
 </web-app>
