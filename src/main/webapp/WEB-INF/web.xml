@@ -51,4 +51,13 @@
         <url-pattern>/json</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>Users as Json</servlet-name>
+        <jsp-file>/usersAsJson.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Users as Json</servlet-name>
+        <url-pattern>/jsonUsers</url-pattern>
+    </servlet-mapping>
+
 </web-app>
