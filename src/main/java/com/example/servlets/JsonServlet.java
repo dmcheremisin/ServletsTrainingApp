@@ -20,7 +20,7 @@ public class JsonServlet extends HttpServlet {
         resp.setCharacterEncoding("utf-8");
 
         UserModel dima = createUser(1, "Dima", 29);
-        UserModel anya = createUser(2, "Anya", 30);
+        UserModel anya = createUser(2, "Anya", 29);
         List<UserModel> users = Arrays.asList(dima, anya);
         String value = new ObjectMapper().writeValueAsString(users);
 
