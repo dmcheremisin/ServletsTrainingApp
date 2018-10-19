@@ -2,6 +2,7 @@ package com.example.utils;
 
 import com.example.models.UserModel;
 
+import javax.servlet.ServletContext;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -31,6 +32,11 @@ public class ServerUtils {
 
     public static boolean isUserDataValid(String name, String age){
         return stringIsNotEmpty(name) && isInteger(age);
+    }
+
+    public static Map<Integer, UserModel> getUsersFromContext(ServletContext servletContext) {
+        Object users = servletContext.getAttribute("users");
+        return getUsersMap(users);
     }
 
 }

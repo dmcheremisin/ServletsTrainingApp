@@ -13,11 +13,6 @@ import static com.example.utils.ServerUtils.*;
 
 public class UpdateUserServlet extends HttpServlet {
 
-    private Map<Integer, UserModel> getUsersFromContext() {
-        Object users = getServletContext().getAttribute("users");
-        return getUsersMap(users);
-    }
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         UserModel userModel = getUserById(req);
@@ -45,7 +40,7 @@ public class UpdateUserServlet extends HttpServlet {
         String id = req.getParameter("id");
         if (isInteger(id)) {
             int userId = Integer.parseInt(id);
-            Map<Integer, UserModel> usersFromContext = getUsersFromContext();
+            Map<Integer, UserModel> usersFromContext = getUsersFromContext(getServletContext());
             UserModel userModel = usersFromContext.get(userId);
             if (userModel != null) {
                 return userModel;

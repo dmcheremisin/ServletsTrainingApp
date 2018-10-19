@@ -15,8 +15,10 @@ public class StubDataInitializer implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent event) {
         ServletContext servletContext = event.getServletContext();
-        UserModel userModel = ServerUtils.createUser(0, "Dima", 29);
-        users.put(userModel.getId(), userModel);
+        UserModel dima = ServerUtils.createUser(0, "Dima", 29);
+        UserModel anya = ServerUtils.createUser(1, "Anya", 30);
+        users.put(dima.getId(), dima);
+        users.put(anya.getId(), anya);
         servletContext.setAttribute("users", users);
     }
 

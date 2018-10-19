@@ -8,9 +8,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import static com.example.utils.ServerUtils.createUser;
+import static com.example.utils.ServerUtils.getUsersFromContext;
 
 public class JsonServlet extends HttpServlet {
 
@@ -19,9 +22,8 @@ public class JsonServlet extends HttpServlet {
         resp.setContentType("application/json");
         resp.setCharacterEncoding("utf-8");
 
-        UserModel dima = createUser(1, "Dima", 29);
-        UserModel anya = createUser(2, "Anya", 29);
-        List<UserModel> users = Arrays.asList(dima, anya);
+        Map<Integer, UserModel> usersFromContext = getUsersFromContext(getServletContext());
+        Collection<UserModel> users = usersFromContext.values();
         String value = new ObjectMapper().writeValueAsString(users);
 
         resp.getWriter().write(value);

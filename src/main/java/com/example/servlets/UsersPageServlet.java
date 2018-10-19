@@ -13,21 +13,16 @@ import static com.example.utils.ServerUtils.*;
 
 public class UsersPageServlet extends HttpServlet {
 
-    private Map<Integer, UserModel> getUsersFromContext() {
-        Object users = getServletContext().getAttribute("users");
-        return getUsersMap(users);
-    }
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Map<Integer, UserModel> usersModels = getUsersFromContext();
+        Map<Integer, UserModel> usersModels = getUsersFromContext(getServletContext());
         req.setAttribute("users", usersModels.values());
         req.getRequestDispatcher("users.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Map<Integer, UserModel> users = getUsersFromContext();
+        Map<Integer, UserModel> users = getUsersFromContext(getServletContext());
         String name = req.getParameter("name");
         String age = req.getParameter("age");
         if(isUserDataValid(name, age)){
