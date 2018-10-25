@@ -6,20 +6,22 @@
 <c:forEach var="user" items="${requestScope.users}">
     <div>
         <p>Name: ${user.name}, age: ${user.age}</p>
-        <form action="/updateUser" method="get">
-            <input type="text" hidden name="id" value="${user.id}" />
-            <input type="submit" value="Change" />
-        </form>
-        <c:if test="${requestScope.role eq 'admin'}">
-            <form action="/deleteUser" method="get">
+        <div>
+            <form action="/updateUser" method="get">
                 <input type="text" hidden name="id" value="${user.id}"/>
-                <input type="submit" value="Delete"/>
-            </form>
-        </c:if>
+                <input type="submit" value="Change"/>
+            </form>&nbsp
+            <c:if test="${requestScope.role eq 'admin'}">
+                <form action="/deleteUser" method="get">
+                    <input type="text" hidden name="id" value="${user.id}"/>
+                    <input type="submit" value="Delete"/>
+                </form>
+            </c:if>
+        </div>
     </div>
 </c:forEach>
 
-<c:if test="${requestScope.role eq 'admin' || requestScope.role eq 'manager'}">
+<c:if test="${requestScope.role eq 'admin' || requestScope.role eq 'member'}">
     <h2>Add new user form</h2>
     <form action="/users" method="post">
         <p>Name: <input type="text" name="name"/></p>

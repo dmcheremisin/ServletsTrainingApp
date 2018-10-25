@@ -4,8 +4,13 @@ import com.example.dao.UserDao;
 import com.example.models.UserModel;
 
 import javax.servlet.ServletContext;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ServerUtils {
 
@@ -29,4 +34,19 @@ public class ServerUtils {
         return (T) dao;
     }
 
+    public static List<String> getConfigUrls(String str) {
+        String[] split = str.split(",");
+        List<String> urls = new ArrayList<>();
+        Collections.addAll(urls, split);
+        return urls;
+    }
+
+    public static String getRequestedUrl(String str) {
+        Pattern pattern = Pattern.compile("^.*\\/([a-zA-Z0-9\\-]*)(\\?.*)?$");
+        Matcher matcher = pattern.matcher(str);
+        if(matcher.matches()){
+            return matcher.group(1);
+        }
+        return null;
+    }
 }

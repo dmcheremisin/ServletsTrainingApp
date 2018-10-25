@@ -9,30 +9,31 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static com.example.constants.ROLE.ADMIN;
-import static com.example.utils.ServerUtils.getDaoByKey;
-import static com.example.utils.ServerUtils.stringIsNotEmpty;
+import static com.example.constants.ROLE.MEMBER;
+import static com.example.utils.ServerUtils.*;
 
 public class AuthFilter implements Filter {
-    private List<String> memberUrls;
-    private List<String> adminUrls;
+    private final Map<ROLE, List<String>> roleUrls = new ConcurrentHashMap<>();
     private UserDao userDao;
 
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
         ServletContext servletContext = filterConfig.getServletContext();
         String member = servletContext.getInitParameter("memberUrls");
         String admin = servletContext.getInitParameter("adminUrls");
-        this.memberUrls = getConfigUrls(member);
+
+        List<String> memberUrls = getConfigUrls(member);
 
         List<String> adminUrls = getConfigUrls(admin);
         adminUrls.addAll(memberUrls);
-        this.adminUrls = adminUrls;
+
+        roleUrls.put(ADMIN, adminUrls);
+        roleUrls.put(MEMBER, adminUrls);
 
         UserDao userDao = getDaoByKey(servletContext, "userDao",  UserDao.class);
         this.userDao = userDao;
@@ -50,9 +51,16 @@ public class AuthFilter implements Filter {
         HttpSession session = request.getSession(false);
         if(session != null && session.getAttribute("user") != null) {
             UserModel user = (UserModel) session.getAttribute("user");
-            request.setAttribute("role", user.getRole().getRoleString());
+            ROLE role = user.getRole();
+            request.setAttribute("role", role.getRoleString());
 
-            filterChain.doFilter(request, response);
+            List<String> urls = roleUrls.get(role);
+            String requestedUrl = getRequestedUrl(request.getRequestURI());
+            if(urls.contains(requestedUrl)) {
+                filterChain.doFilter(request, response);
+            } else {
+                request.getRequestDispatcher("service/restrictionError.jsp").forward(request, response);
+            }
         } else if(stringIsNotEmpty(login) && stringIsNotEmpty(password) && userDao.isUserExists(login, password)){
             UserModel user = userDao.getUserByCredentials(login, password);
             HttpSession newSession = request.getSession();
@@ -67,13 +75,6 @@ public class AuthFilter implements Filter {
         } else {
             request.getRequestDispatcher("login.jsp").forward(request, response);
         }
-    }
-
-    private List<String> getConfigUrls(String str) {
-        String[] split = str.split(",");
-        List<String> urls = new ArrayList<>();
-        Collections.addAll(urls, split);
-        return urls;
     }
 
     @Override

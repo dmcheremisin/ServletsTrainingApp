@@ -23,7 +23,8 @@ public class DeleteUserServlet extends HttpServlet {
             UserModel userModel = userDao.getUserById(userId);
             if (userModel != null) {
                 userDao.deleteUser(userModel);
-                resp.sendRedirect("deleteUser.jsp");
+                req.getRequestDispatcher("deleteUser.jsp").forward(req, resp);
+                return;
             }
         }
         throw new IllegalArgumentException("There is no such user in the system.");
