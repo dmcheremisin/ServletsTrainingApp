@@ -1,5 +1,6 @@
 package com.example.servlets;
 
+import com.example.dao.UserDao;
 import com.example.models.UserModel;
 
 import javax.servlet.ServletException;
@@ -40,8 +41,8 @@ public class UpdateUserServlet extends HttpServlet {
         String id = req.getParameter("id");
         if (isInteger(id)) {
             int userId = Integer.parseInt(id);
-            Map<Integer, UserModel> usersFromContext = getUsersFromContext(getServletContext());
-            UserModel userModel = usersFromContext.get(userId);
+            UserDao userDao = getDaoByKey(getServletContext(), "userDao",  UserDao.class);
+            UserModel userModel = userDao.getUserById(userId);
             if (userModel != null) {
                 return userModel;
             }

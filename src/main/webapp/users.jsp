@@ -10,14 +10,22 @@
             <input type="text" hidden name="id" value="${user.id}" />
             <input type="submit" value="Change" />
         </form>
+        <c:if test="${requestScope.role eq 'admin'}">
+            <form action="/deleteUser" method="get">
+                <input type="text" hidden name="id" value="${user.id}"/>
+                <input type="submit" value="Delete"/>
+            </form>
+        </c:if>
     </div>
 </c:forEach>
 
-<h2>Add new user form</h2>
-<form action="/users" method="post">
-    <p>Name: <input type="text" name="name" /></p>
-    <p>Age: <input type="text" name="age" /></p>
-    <p><input type="submit" value="Add" /></p>
-</form>
+<c:if test="${requestScope.role eq 'admin' || requestScope.role eq 'manager'}">
+    <h2>Add new user form</h2>
+    <form action="/users" method="post">
+        <p>Name: <input type="text" name="name"/></p>
+        <p>Age: <input type="text" name="age"/></p>
+        <p><input type="submit" value="Add"/></p>
+    </form>
+</c:if>
 
 <%@include file="template/Footer.jsp"%>

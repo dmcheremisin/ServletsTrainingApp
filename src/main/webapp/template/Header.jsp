@@ -11,4 +11,5 @@
 <a href="users">Users list</a>&nbsp;
 <a href="json">Json</a>
 <a href="jsonUsers">Users as Json</a>
+<a href="logout">Logut</a>
 <h1>${param.title}</h1>

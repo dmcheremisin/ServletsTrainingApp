@@ -1,5 +1,6 @@
 package com.example.utils;
 
+import com.example.dao.UserDao;
 import com.example.models.UserModel;
 
 import javax.servlet.ServletContext;
@@ -7,20 +8,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ServerUtils {
-    public static UserModel createUser(int id, String name, int age){
-        UserModel userModel = new UserModel();
-        userModel.setId(id);
-        userModel.setName(name);
-        userModel.setAge(age);
-        return userModel;
-    }
-
-    public static Map<Integer, UserModel> getUsersMap(Object users) {
-        if(!(users instanceof ConcurrentHashMap)){
-            throw new IllegalArgumentException("Something went wrong with the repository.");
-        }
-        return (ConcurrentHashMap<Integer, UserModel>) users;
-    }
 
     public static boolean stringIsNotEmpty(String str) {
         return str != null && str.length() > 0;
@@ -34,9 +21,12 @@ public class ServerUtils {
         return stringIsNotEmpty(name) && isInteger(age);
     }
 
-    public static Map<Integer, UserModel> getUsersFromContext(ServletContext servletContext) {
-        Object users = servletContext.getAttribute("users");
-        return getUsersMap(users);
+    public static <T> T getDaoByKey(ServletContext servletContext, String key, Class<T> clazz) {
+        Object dao = servletContext.getAttribute(key);
+        if(!(dao.getClass()).isAssignableFrom(clazz)){
+            throw new RuntimeException("Something went wrong with the repository.");
+        }
+        return (T) dao;
     }
 
 }

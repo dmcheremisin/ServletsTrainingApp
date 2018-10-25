@@ -14,7 +14,8 @@ $( document ).ready(function() {
             age: userAge,
         };
         var userString = JSON.stringify(user);
-        $.post("json", {user: userString}).done(function( data ) {
+        $.post("json", {user: userString})
+            .done(function() {
                 window.location.href = "/jsonUsers";
             });
     });

@@ -25,20 +25,32 @@
     
     <filter>
         <filter-name>Request filter</filter-name>
-        <filter-class>com.example.filters.RequestFilter</filter-class>
+        <filter-class>com.example.filters.RequestResponseFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>Request filter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
     <filter>
-        <filter-name>Response filter</filter-name>
-        <filter-class>com.example.filters.ResponseFilter</filter-class>
+        <filter-name>Auth filter</filter-name>
+        <filter-class>com.example.filters.AuthFilter</filter-class>
     </filter>
     <filter-mapping>
-        <filter-name>Response filter</filter-name>
-        <url-pattern>/*</url-pattern>
+        <filter-name>Auth filter</filter-name>
+        <url-pattern>/users</url-pattern>
+        <url-pattern>/updateUser</url-pattern>
+        <url-pattern>/deleteUser</url-pattern>
+        <url-pattern>/jsonUsers</url-pattern>
     </filter-mapping>
+
+    <context-param>
+        <param-name>memberUrls</param-name>
+        <param-value>users,updateUser,jsonUsers</param-value>
+    </context-param>
+    <context-param>
+        <param-name>adminUrls</param-name>
+        <param-value>deleteUser</param-value>
+    </context-param>
 
     <servlet>
         <servlet-name>Users List</servlet-name>
@@ -75,6 +87,24 @@
     <servlet-mapping>
         <servlet-name>Users as Json</servlet-name>
         <url-pattern>/jsonUsers</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Delete User</servlet-name>
+        <servlet-class>com.example.servlets.DeleteUserServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Delete User</servlet-name>
+        <url-pattern>/deleteUser</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Logout servlet</servlet-name>
+        <servlet-class>com.example.servlets.LogoutServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Logout servlet</servlet-name>
+        <url-pattern>/logout</url-pattern>
     </servlet-mapping>
 
 </web-app>
