@@ -30,7 +30,7 @@ public class UsersPageServlet extends HttpServlet {
         String age = req.getParameter("age");
         if(isUserDataValid(name, age)){
             int intAge = Integer.parseInt(age);
-            userDao.addUser(name, intAge, null, null, null);
+            userDao.addUser(name, intAge, "", "", "");
         } else {
             throw new IllegalArgumentException("Please, provide valid user data.");
         }

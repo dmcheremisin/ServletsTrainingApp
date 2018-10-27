@@ -13,6 +13,12 @@ import java.util.Map;
 import static com.example.utils.ServerUtils.*;
 
 public class UpdateUserServlet extends HttpServlet {
+    private UserDao userDao;
+
+    @Override
+    public void init() throws ServletException {
+        userDao = getDaoByKey(getServletContext(), "userDao",  UserDao.class);
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -30,6 +36,7 @@ public class UpdateUserServlet extends HttpServlet {
             int intAge = Integer.parseInt(age);
             userModel.setName(name);
             userModel.setAge(intAge);
+            userDao.updateUserModel(userModel);
             req.setAttribute("user", userModel);
             req.getRequestDispatcher("updateUser.jsp").forward(req, resp);
             return;
@@ -41,7 +48,6 @@ public class UpdateUserServlet extends HttpServlet {
         String id = req.getParameter("id");
         if (isInteger(id)) {
             int userId = Integer.parseInt(id);
-            UserDao userDao = getDaoByKey(getServletContext(), "userDao",  UserDao.class);
             UserModel userModel = userDao.getUserById(userId);
             if (userModel != null) {
                 return userModel;

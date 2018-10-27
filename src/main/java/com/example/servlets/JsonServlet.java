@@ -1,5 +1,6 @@
 package com.example.servlets;
 
+import com.example.constants.ROLE;
 import com.example.dao.UserDao;
 import com.example.models.UserModel;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,6 +32,7 @@ public class JsonServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String userString = req.getParameter("user");
         UserModel userModel = new ObjectMapper().readValue(userString, UserModel.class);
+        userModel.setRole(ROLE.UNKNOWN);
 
         UserDao userDao = getDaoByKey(getServletContext(), "userDao",  UserDao.class);
         if(isUserDataValid(userModel.getName(), userModel.getAge() + "")){

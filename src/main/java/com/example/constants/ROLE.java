@@ -12,4 +12,13 @@ public enum ROLE {
     public String getRoleString() {
         return role;
     }
+
+    public static ROLE getRoleByKey(String key){
+        for (ROLE value : ROLE.values()) {
+            if(value.getRoleString().equals(key)){
+                return value;
+            }
+        }
+        return UNKNOWN;
+    }
 }
