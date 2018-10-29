@@ -5,13 +5,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
 
-/**
- * Created by Alexeev on 13.10.2016.
- */
-
-/**
- * LocaleServlet allows changing localization using user request
- */
 @WebServlet("/language")
 public class LocaleServlet extends HttpServlet {
 
