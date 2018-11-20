@@ -18,6 +18,7 @@
     <a href="users"><fmt:message key="users.list.page" /></a>&nbsp;
     <a href="json"><fmt:message key="json.page" /></a>&nbsp;
     <a href="jsonUsers"><fmt:message key="users.json.list" /></a>&nbsp;
+    <a href="upload"><fmt:message key="upload" /></a>&nbsp;
     <a href="logout"><fmt:message key="logout.page" /></a>&nbsp;
     <a href="./locale?lang=en">EN</a>
     <a href="./locale?lang=ru">RU</a>
