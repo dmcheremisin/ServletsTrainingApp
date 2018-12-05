@@ -13,8 +13,6 @@ import java.io.IOException;
  */
 public class Upload extends HttpServlet {
 
-    private static final String SAVE_DIR = "uploadFiles";
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher("upload.jsp").forward(req, resp);
@@ -26,7 +24,7 @@ public class Upload extends HttpServlet {
     protected void doPost(HttpServletRequest request,
                           HttpServletResponse response) throws ServletException, IOException {
         String appPath = request.getServletContext().getRealPath("");
-        String savePath = appPath + SAVE_DIR;
+        String savePath = appPath + getInitParameter("uploadDir");
         File fileSaveDir = new File(savePath);
         if (!fileSaveDir.exists()) {
             fileSaveDir.mkdir();
